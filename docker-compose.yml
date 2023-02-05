@@ -1,0 +1,34 @@
+version: "3"
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - internal
+    volumes:
+      - ./:/var/www/html/
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    networks:
+      - internal
+    volumes:
+      - ./:/var/www/html/
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: wallet
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+    networks:
+      - internal
+networks:
+  internal:
+    driver: bridge
