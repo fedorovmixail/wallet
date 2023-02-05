@@ -18,10 +18,10 @@ wallet_id | currency_id | balance
 104         2             0  
 105         2             10  
 
-**валюты currency**
-id | currency
-1, rub
-2, usd
+**валюты currency**. 
+id | currency.  
+1, rub. 
+2, usd. 
 
 **курсы валют currency_rate**  
 доллар к рублю 70  
