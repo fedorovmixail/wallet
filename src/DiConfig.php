@@ -7,6 +7,7 @@ use Aura\Di\ContainerConfig;
 use Aura\Filter\FilterFactory;
 use Laminas\Diactoros\Response;
 use Wallet\Repositories\CurrencyRepo;
+use Wallet\Repositories\HistoryRepo;
 use Wallet\Repositories\WalletRepo;
 use Wallet\Services\AuthService;
 use Wallet\Services\BalanceUpdater\BalanceUpdater;
@@ -32,21 +33,27 @@ class DiConfig extends ContainerConfig
         );
         $di->set(Db::class, $di->lazyNew(Db::class));
 
-        $di->params[BalanceUpdater::class] = array(
+        $di->params[WalletRepo::class] = array(
             'db' => $di->lazyNew(Db::class)
         );
         $di->set(WalletRepo::class, $di->lazyNew(WalletRepo::class));
 
-        $di->params[BalanceUpdater::class] = array(
+        $di->params[CurrencyRepo::class] = array(
             'db' => $di->lazyNew(Db::class)
         );
         $di->set(CurrencyRepo::class, $di->lazyNew(CurrencyRepo::class));
+
+        $di->params[HistoryRepo::class] = array(
+            'db' => $di->lazyNew(Db::class)
+        );
+        $di->set(HistoryRepo::class, $di->lazyNew(HistoryRepo::class));
 
         $di->params[BalanceUpdater::class] = array(
             'walletRepo' => $di->lazyNew(WalletRepo::class, [$di->lazyNew(Db::class)]),
             'updateStrategyFactory' => $di->lazyNew(UpdateStrategyFactory::class),
             'currencyRepo' => $di->lazyNew(CurrencyRepo::class, [$di->lazyNew(Db::class)]),
             'currencyCastFactory' => $di->lazyNew(CurrencyCastFactory::class),
+            'historyRepo' => $di->lazyNew(HistoryRepo::class),
         );
         $di->set(BalanceUpdater::class, $di->lazyNew(BalanceUpdater::class));
 

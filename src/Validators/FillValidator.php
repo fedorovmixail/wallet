@@ -4,6 +4,7 @@ namespace Wallet\Validators;
 
 use Aura\Filter\SubjectFilter;
 use Wallet\Models\Currency;
+use Wallet\Models\History;
 use Wallet\Services\BalanceUpdater\UpdateStrategies\UpdateStrategyFactory;
 
 class FillValidator extends SubjectFilter
@@ -14,6 +15,6 @@ class FillValidator extends SubjectFilter
         $this->validate('type')->is('inValues', UpdateStrategyFactory::UPDATE_STRATEGIES)->asHardRule();
         $this->validate('amount')->is('float')->asHardRule();
         $this->validate('currency')->is('inValues', Currency::CURRENCY_LIST)->asHardRule();
-        $this->validate('reason')->is('inValues', REASONS_LIST)->asHardRule();
+        $this->validate('reason')->is('inValues', History::REASONS_LIST)->asHardRule();
     }
 }

@@ -12,11 +12,10 @@ $di = (new ContainerBuilder())->newConfiguredInstance([
 $db = $di->get(Db::class);
 $pdo = $db->getConnect();
 
-$pdo->exec('drop table wallet');
-$pdo->exec('drop table currency_rate');
-$pdo->exec('drop table currency');
-
-
+$pdo->exec('drop table if exists wallet');
+$pdo->exec('drop table if exists currency_rate');
+$pdo->exec('drop table if exists currency');
+$pdo->exec('drop table if exists history');
 
 $pdo->exec('
     create table if not exists currency
@@ -60,6 +59,21 @@ $pdo->exec('
         (103, 2, 150.00),
         (104, 2, 0.00),
         (105, 2, -10.00)
+');
+
+$pdo->exec('
+    create table if not exists history
+    (
+        id int unsigned auto_increment primary key,
+        wallet_id int unsigned not null,
+        type varchar(30) not null,
+        amount decimal(13, 5) not null,
+        currency varchar(5) not null,
+        reason varchar(50) not null,
+        datets timestamp not null,
+        index search_wallet_reason (reason, wallet_id, type),
+        index search_date_reason (datets, reason)
+    ) engine=innoDb character set utf8 COLLATE utf8_general_ci;
 ');
 
 exit;

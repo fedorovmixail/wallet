@@ -55,14 +55,4 @@ class Wallet
     {
         $this->balance = $balance;
     }
-
-    public function canIncrease(float $amount): bool
-    {
-
-    }
-
-    public function canDecrease(float $amount): bool
-    {
-
-    }
 }
